@@ -16,9 +16,13 @@
 
 <body>
 
-    <div class="container">
-        <button onclick="agregar()" class="btn btn-success"> Agregar</button>
-        <a href="/vista/casar" class="btn btn-primary"> Casar</a>
+    <div class="container d-flex justify-content-between">
+        <div>
+            <a href="/vista/registrar/persona" class="btn btn-success"> Agregar</a>
+            <a href="/vista/casar" class="btn btn-primary"> Casar</a>
+        </div>
+        <a href="/cerrar-sesion" class="btn btn-danger">Cerrar sesion</a>
+
     </div>
 
     <div class="container mt-5">
@@ -33,7 +37,7 @@
                     <th>Opciones</th>
                 </tr>
             </thead>
-    
+
             <tbody>
                 @foreach ($personas as $persona)
                     <tr>
@@ -57,12 +61,8 @@
 </body>
 
 <script>
-    function agregar() {
-        location.href = "/vista/registrar/persona"
-    }
-
     function editar(id) {
-        location.href=`/editar/persona/${id}`
+        location.href = `/vista/editar/persona/${id}`
     }
 
     function borrar(id) {
@@ -71,7 +71,7 @@
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 }
-                
+
             })
             .then(response => response.json())
             .then(data => {

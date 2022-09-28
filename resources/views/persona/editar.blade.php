@@ -17,36 +17,40 @@
     <div class="container mt-5">
 
         <div class="mb-3">
-            <label class="form-label">ID</label>    
-            <input type="text" class="form-control" id="id" disabled value="{{$persona->id}}">
+            <label class="form-label">ID</label>
+            <input type="text" class="form-control" id="id" disabled value="{{ $persona->id }}">
         </div>
 
         <div class="mb-3">
             <label class="form-label">Nombre:</label>
-            <input type="text" class="form-control" id="nombre" value="{{$persona->nombre}}">
+            <input type="text" class="form-control" id="nombre" value="{{ $persona->nombre }}">
         </div>
 
         <div class="mb-3">
             <label class="form-label">Edad:</label>
-            <input type="number" class="form-control" id="edad" value="{{$persona->edad}}">
+            <input type="number" class="form-control" id="edad" value="{{ $persona->edad }}">
         </div>
 
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="sexo" value="M" checked="{{$persona->sexo=='M'}}">
+            <input class="form-check-input" type="radio" name="sexo" value="M"
+                {{ $persona->sexo == 'M' ? 'checked' : '' }}>
             <label class="form-check-label" for="mujer">
                 Mujer
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="sexo" value="H" checked="{{$persona->sexo=='H'}}">
-            <label class="form-check-label" for="hombre" >
+            <input class="form-check-input" type="radio" name="sexo" value="H"
+                {{ $persona->sexo == 'H' ? 'checked' : '' }}>
+            <label class="form-check-label" for="hombre">
                 Hombre
             </label>
         </div>
         <br>
-        <select class="form-select" id="estado_civil" aria-label="estado_civil" value="{{$persona->estado_civil}}">
-            <option selected value="SOLTERO">SOLTERO</option>
-            <option value="CASADO">CASADO</option>
+
+
+        <select class="form-select" id="estado_civil" aria-label="estado_civil">
+            <option {{ $persona->estado_civil == 'SOLTERO' ? 'selected' : '' }} value="SOLTERO">SOLTERO</option>
+            <option {{ $persona->estado_civil == 'CASADO' ? 'selected' : '' }} value="CASADO">CASADO</option>
         </select>
         <br>
         <button class="btn btn-warning" onclick="editar()">EDITAR</button>
@@ -60,7 +64,7 @@
         const id = document.getElementById('id').value;
         const nombre = document.getElementById('nombre').value;
         const edad = document.getElementById('edad').value;
-        const sexo = document.getElementById('sexo').value;
+        const sexo = document.querySelector('input[name="sexo"]:checked').value;
         const estado_civil = document.getElementById('estado_civil').value;
 
         if (nombre.length < 6) {
@@ -73,7 +77,8 @@
             return;
         }
 
-        fetch(`/editar/persona`, {
+
+        fetch(`/editar/persona/${id}`, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content

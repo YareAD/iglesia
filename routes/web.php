@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CasadosController;
 use App\Http\Controllers\PersonasController;
 use Illuminate\Support\Facades\Route;
@@ -19,17 +20,33 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(PersonasController::class)->group(function () {
-    Route::get('vista/visualizar/personas', 'vistaVisualizarPersonas');
-    Route::get('vista/registrar/persona', 'vistaRegistrarPersona');
-    Route::post('registrar/persona', 'registrarPersona');
-    Route::delete('vista/visualizar/personas/{id}','borrar');
-    Route::post('editar/persona', 'editarPersona');
-    Route::get('editar/persona/{id}','vistaEditar');
+
+Route::controller(AuthController::class)->group(function () {
+    Route::get('vista/iniciar-sesion', 'vistaIniciarSesion')->name('login');
+    Route::get('vista/registro', 'vistaRegistro');
+
+    Route::post('iniciar-sesion', 'iniciarSesion');
+    Route::post('registro', 'registro');
+    Route::get('cerrar-sesion', 'cerrarSesion');
 });
 
-Route::controller(CasadosController::class)->group(function () {
-    Route::get('vista/ver/casados', 'vistaVerCasados');
-    Route::get('vista/casar', 'vistaCasar');
-    Route::post('casar', 'casar');
-});
+
+Route::group(
+    ['middleware' => ['auth']],
+    function () {
+        Route::controller(PersonasController::class)->group(function () {
+            Route::get('vista/visualizar/personas', 'vistaVisualizarPersonas');
+            Route::get('vista/registrar/persona', 'vistaRegistrarPersona');
+            Route::post('registrar/persona', 'registrarPersona');
+            Route::delete('vista/visualizar/personas/{id}', 'borrar');
+            Route::post('editar/persona/{id}', 'editarPersona');
+            Route::get('vista/editar/persona/{id}', 'vistaEditar');
+        });
+
+        Route::controller(CasadosController::class)->group(function () {
+            Route::get('vista/ver/casados', 'vistaVerCasados');
+            Route::get('vista/casar', 'vistaCasar');
+            Route::post('casar', 'casar');
+        });
+    }
+);
