@@ -19,7 +19,7 @@ class CasadosController extends Controller
         foreach ($tablaCasados as $compromiso) {
             $hombre = Persona::where('id', $compromiso->id_hombre)->first();
             $mujer = Persona::where('id', $compromiso->id_mujer)->first();
-            $casados->push((object)['hombre' => $hombre->nombre, 'mujer' => $mujer->nombre, 'fecha_boda' => $compromiso->fecha_boda]);
+            $casados->push((object)['id' => $compromiso->id, 'hombre' => $hombre->nombre, 'mujer' => $mujer->nombre, 'fecha_boda' => $compromiso->fecha_boda]);
         }
         $casados  = collect($casados);
         return view('casados.visualizar', ['casados' => $casados]);

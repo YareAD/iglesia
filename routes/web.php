@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CasadosController;
+use App\Http\Controllers\DivorciosController;
 use App\Http\Controllers\PersonasController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,11 @@ Route::group(
             Route::get('vista/ver/casados', 'vistaVerCasados');
             Route::get('vista/casar', 'vistaCasar');
             Route::post('casar', 'casar');
+        });
+
+        Route::controller(DivorciosController::class)->group(function () {
+            Route::get('vista/visualizar/divorcios', 'vistaVisualizarDivorcios');
+            Route::delete('divorciar/{id}', 'divorciar');
         });
     }
 );

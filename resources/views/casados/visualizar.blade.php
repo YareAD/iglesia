@@ -22,21 +22,45 @@
                     <th>Hombre</th>
                     <th>Mujer</th>
                     <th>Fecha boda</th>
+                    <th>Opciones</th>
                 </tr>
             </thead>
-    
+
             <tbody>
                 @foreach ($casados as $casado)
                     <tr>
                         <td>{{ $casado->hombre }}</td>
                         <td>{{ $casado->mujer }}</td>
                         <td>{{ $casado->fecha_boda }}</td>
-    
+                        <td>
+                            <button type="button" onclick="divorciar({{ $casado->id }})"
+                                class="btn btn-outline-danger">Divorciar</button>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script>
+        function divorciar(id) {
+            fetch(`/divorciar/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    },
+
+                })
+                .then(response => response.json())
+                .then(data => {
+                    location.href = '/vista/visualizar/divorcios'
+                })
+                .catch(err => {
+                    console.error(err)
+                });
+        }
+    </script>
 
 </body>
 

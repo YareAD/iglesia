@@ -20,6 +20,8 @@
         <div>
             <a href="/vista/registrar/persona" class="btn btn-success"> Agregar</a>
             <a href="/vista/casar" class="btn btn-primary"> Casar</a>
+            <a href="/vista/ver/casados" class="btn btn-primary"> Ver casados</a>
+            <a href="/vista/visualizar/divorcios" class="btn btn-primary"> Ver divorcios</a>
         </div>
         <a href="/cerrar-sesion" class="btn btn-danger">Cerrar sesion</a>
 
